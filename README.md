@@ -4,6 +4,10 @@ Part II of Algorithms from Princeton University. Course related information can 
 
 https://www.coursera.org/learn/algorithms-part2
 
+⠀Week⠀                | Content |
+| --- | --- |
+| Week 1 | Graphs, Depth-First Search, Breadth-First Search, Connected Components, Digraphs, Topological Sort, Strong Components |
+
 # Assignments
 
 | Assignment | Name | Score |
