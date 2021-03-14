@@ -3,12 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package computerscience.algorithms.week6.wordnet;
+package computerscience.algorithms.week6.WordNet;
 
 import edu.princeton.cs.algs4.Digraph;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -17,7 +14,6 @@ import java.util.Map;
 public class SAP {
 
     private Digraph graph;
-    private Map<String, SAPProcessor> cache;
 
     // constructor takes a digraph (not necessarily a DAG)
     public SAP(Digraph G) {
@@ -48,42 +44,5 @@ public class SAP {
     public static void main(String[] args) {
 
     }
-
-    private class SAPProcessor {
-
-        private int sap;
-        private int distance;
-
-        public SAPProcessor(int v, int w) {
-            BreadthFirstDirectedPaths a = new BreadthFirstDirectedPaths(graph, v);
-            BreadthFirstDirectedPaths b = new BreadthFirstDirectedPaths(graph, w);
-            process(a, b);
-        }
-
-        private void process(BreadthFirstDirectedPaths a, BreadthFirstDirectedPaths b) {
-            List<Integer> ancestors = new ArrayList<>();
-            for (int i = 0; i < graph.V(); i++) {
-                if (a.hasPathTo(i) && b.hasPathTo(i)) {
-                    ancestors.add(i);
-                }
-            }
-
-            int shortestAncestor = -1;
-            int minDistance = Integer.MAX_VALUE;
-            for (int ancestor : ancestors) {
-                int dist = a.distTo(ancestor) + b.distTo(ancestor);
-                if (dist < minDistance) {
-                    minDistance = dist;
-                    shortestAncestor = ancestor;
-                }
-            }
-            if (Integer.MAX_VALUE == minDistance) {
-                distance = -1;
-            } else {
-                distance = minDistance;
-
-            }
-            sap = shortestAncestor;
-        }
-    }
+    
 }
