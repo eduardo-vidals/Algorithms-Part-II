@@ -5,12 +5,13 @@
  */
 package computerscience.algorithms.week6.wordnet;
 
-import edu.princeton.cs.algs4.BST;
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.Queue;
-import java.io.File;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -18,46 +19,60 @@ import java.util.Arrays;
  */
 public class WordNet {
 
-    private BST<String, Integer> nouns;
-    private Digraph digraph;
+    private final Map<Integer, String> idToSynsets;
+    private final Map<String, Set<Integer>> nounsToIds;
 
     // constructor takes the name of the two input files
     public WordNet(String synsets, String hypernyms) {
-        In in1 = new In(new File(synsets));
-        In in2 = new In(new File(hypernyms));
-        nouns = new BST<>();
-        int count = 0;
-        while (in1.hasNextLine()) {
-            String[] synset = in1.readLine().split(",");
+        idToSynsets = new HashMap<>();
+        nounsToIds = new HashMap<>();
+        synsetNouns(synsets);
+        Digraph digraph = hypernyms(hypernyms);
+        
+        DirectedCycle cycle = new DirectedCycle(digraph);
+    }
+
+    private void synsetNouns(String synsets) {
+        In in = new In(synsets);
+
+        while (in.hasNextLine()) {
+            String[] synset = in.readLine().split(",");
+            int synsetID = Integer.valueOf(synset[0]);
+            idToSynsets.put(synsetID, synset[1]);
             String[] synsetNouns = synset[1].split("\\s++");
-            for (String synsetNoun : synsetNouns) {
-                nouns.put(synsetNoun, count);
-            }
-            count++;
+            for (String noun : synsetNouns) {
+                Set<Integer> nounIds = nounsToIds.get(noun);
+                if (nounIds == null) {
+                    nounIds = new HashSet<>();
+                }
+                nounIds.add(synsetID);
+                nounsToIds.put(noun, nounIds);
+            } 
         }
-        
-        digraph = new Digraph(count);
-        
-        int vertex = 0;
-        while (in2.hasNextLine()){
-            String[] hypernym = in2.readLine().split(","); 
-            for (int i = 1; i < hypernym.length; i++){
+    }
+
+    private Digraph hypernyms(String hypernyms) {
+        Digraph graph = new Digraph(idToSynsets.size());
+        In in = new In(hypernyms);
+        while (in.hasNextLine()) {
+            String[] hypernym = in.readLine().split(",");
+            int vertex = Integer.valueOf(hypernym[0]);
+            for (int i = 1; i < hypernym.length; i++) {
                 int edge = Integer.valueOf(hypernym[i]);
-                digraph.addEdge(vertex, edge);
+                graph.addEdge(vertex, edge);
             }
-            vertex++;
         }
-        
+        return graph;
     }
 
     // returns all WordNet nouns
     public Iterable<String> nouns() {
-        return nouns.keys();
+        return nounsToIds.keySet();
     }
 
     // is the word a WordNet noun?
     public boolean isNoun(String word) {
-        return nouns.contains(word);
+        return nounsToIds.get(word) != null;
     }
 
     // distance between nounA and nounB (defined below)
