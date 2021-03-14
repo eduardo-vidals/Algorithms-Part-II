@@ -11,7 +11,7 @@ Your first task is to build the WordNet digraph: each vertex v is an integer tha
 An ancestral path between two vertices v and w in a digraph is a directed path from v to a common ancestor x, together with a directed path from w to the same ancestor x. A shortest ancestral path is an ancestral path of minimum total length. We refer to the common ancestor in a shortest ancestral path as a shortest common ancestor. Note also that an ancestral path is a path, but not a directed path.
 
 ## Measuring the Semantic Relatedness of Two Nouns
-Semantic relatedness refers to the degree to which two concepts are related. Measuring semantic relatedness is a challenging problem. For example, you consider George W. Bush and John F. Kennedy (two U.S. presidents) to be more closely related than George W. Bush and chimpanzee (two primates). It might not be clear whether George W. Bush and Eric Arthur Blair are more related than two arbitrary people. However, both George W. Bush and Eric Arthur Blair (a.k.a. George Orwell) are famous communicators and, therefore, closely related.
+Semantic relatedness refers to the degree to which two concepts are related. 
 
 ## Outcast Detection
 Outcast detection. Given a list of WordNet nouns x1, x2, ..., xn, which noun is the least related to the others?
