@@ -14,9 +14,7 @@ An ancestral path between two vertices v and w in a digraph is a directed path f
 Semantic relatedness refers to the degree to which two concepts are related. Measuring semantic relatedness is a challenging problem. For example, you consider George W. Bush and John F. Kennedy (two U.S. presidents) to be more closely related than George W. Bush and chimpanzee (two primates). It might not be clear whether George W. Bush and Eric Arthur Blair are more related than two arbitrary people. However, both George W. Bush and Eric Arthur Blair (a.k.a. George Orwell) are famous communicators and, therefore, closely related.
 
 ## Outcast Detection
-Outcast detection. Given a list of WordNet nouns x1, x2, ..., xn, which noun is the least related to the others? To identify an outcast, compute the sum of the distances between each noun and every other one:
-di   =   distance(xi, x1)   +   distance(xi, x2)   +   ...   +   distance(xi, xn)
-and return a noun xt for which dt is maximum. Note that distance(xi, xi) = 0, so it will not contribute to the sum.
+Outcast detection. Given a list of WordNet nouns x1, x2, ..., xn, which noun is the least related to the others?
 
 ## Specification.
 Programming assignment specification can be found [here.](https://coursera.cs.princeton.edu/algs4/assignments/wordnet/specification.php)
