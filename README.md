@@ -12,7 +12,7 @@ https://www.coursera.org/learn/algorithms-part2
 
 | Assignment | Name | Score |
 | --- | --- | --- |
-| Week 1 | WordNet | ??? |
+| Week 1 | WordNet | 100/100 |
 | Week 2 | Seam Carving | ??? |
 | Week 3 | Baseball Elimination | ??? |
 | Week 4 | Boggle | ??? |
