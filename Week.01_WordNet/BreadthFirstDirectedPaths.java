@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package computerscience.algorithms.week6.WordNet;
+package computerscience.algorithms.week6.wordnet;
 
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;

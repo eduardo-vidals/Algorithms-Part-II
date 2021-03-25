@@ -5,23 +5,22 @@
  */
 package computerscience.algorithms.search;
 
-import edu.princeton.cs.algs4.Graph;
+import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.Stack;
-import edu.princeton.cs.algs4.StdOut;
 
 /**
  *
  * @author Eduardo
  */
-public class BreadthFirstPaths {
+public class BreadthFirstDirectedPaths {
 
     private static final int INFINITY = Integer.MAX_VALUE;
     private boolean[] marked;
     private int[] edgeTo;
     private int[] distTo;
 
-    public BreadthFirstPaths(Graph G, int s) {
+    public BreadthFirstDirectedPaths(Digraph G, int s) {
         marked = new boolean[G.V()];
         distTo = new int[G.V()];
         edgeTo = new int[G.V()];
@@ -30,11 +29,9 @@ public class BreadthFirstPaths {
         }
         validateVertex(s);
         bfs(G, s);
-
-        assert check(G, s);
     }
 
-    public BreadthFirstPaths(Graph G, Iterable<Integer> sources) {
+    public BreadthFirstDirectedPaths(Digraph G, Iterable<Integer> sources) {
         marked = new boolean[G.V()];
         distTo = new int[G.V()];
         edgeTo = new int[G.V()];
@@ -45,10 +42,10 @@ public class BreadthFirstPaths {
         bfs(G, sources);
     }
 
-    private void bfs(Graph G, int s) {
+    private void bfs(Digraph G, int s) {
         Queue<Integer> q = new Queue<>();
-        distTo[s] = 0;
         marked[s] = true;
+        distTo[s] = 0;
         q.enqueue(s);
         while (!q.isEmpty()) {
             int v = q.dequeue();
@@ -63,7 +60,7 @@ public class BreadthFirstPaths {
         }
     }
 
-    private void bfs(Graph G, Iterable<Integer> sources) {
+    private void bfs(Digraph G, Iterable<Integer> sources) {
         Queue<Integer> q = new Queue<>();
         for (int s : sources) {
             marked[s] = true;
@@ -95,6 +92,7 @@ public class BreadthFirstPaths {
 
     public Iterable<Integer> pathTo(int v) {
         validateVertex(v);
+
         if (!hasPathTo(v)) {
             return null;
         }
@@ -105,46 +103,6 @@ public class BreadthFirstPaths {
         }
         path.push(x);
         return path;
-    }
-
-    private boolean check(Graph G, int s) {
-
-        if (distTo[s] != 0) {
-            StdOut.println("distance of source " + s + " to itself = " + distTo[s]);
-            return false;
-        }
-
-        for (int v = 0; v < G.V(); v++) {
-            for (int w : G.adj(v)) {
-                if (hasPathTo(v) != hasPathTo(w)) {
-                    StdOut.println("edge " + v + "-" + w);
-                    StdOut.println("hasPathTo(" + v + ") = " + hasPathTo(v));
-                    StdOut.println("hasPathTo(" + w + ") = " + hasPathTo(w));
-                    return false;
-                }
-                if (hasPathTo(v) && (distTo[w] > distTo[v] + 1)) {
-                    StdOut.println("edge " + v + "-" + w);
-                    StdOut.println("distTo[" + v + "] = " + distTo[v]);
-                    StdOut.println("distTo[" + w + "] = " + distTo[w]);
-                    return false;
-                }
-            }
-        }
-
-        for (int w = 0; w < G.V(); w++) {
-            if (!hasPathTo(w) || w == s) {
-                continue;
-            }
-            int v = edgeTo[w];
-            if (distTo[w] != distTo[v] + 1) {
-                StdOut.println("shortest path edge " + v + "-" + w);
-                StdOut.println("distTo[" + v + "] = " + distTo[v]);
-                StdOut.println("distTo[" + w + "] = " + distTo[w]);
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private void validateVertex(int v) {
@@ -158,7 +116,7 @@ public class BreadthFirstPaths {
         if (vertices == null) {
             throw new IllegalArgumentException("argument is null");
         }
-
+        
         int count = 0;
         for (Integer v : vertices) {
             count++;

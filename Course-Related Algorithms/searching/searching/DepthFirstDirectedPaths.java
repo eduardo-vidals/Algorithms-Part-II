@@ -5,27 +5,28 @@
  */
 package computerscience.algorithms.search;
 
-import edu.princeton.cs.algs4.Graph;
+import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.Stack;
 
 /**
  *
  * @author Eduardo
  */
-public class DepthFirstPaths {
-    private final boolean[] marked;
-    private final int[] edgeTo;
+public class DepthFirstDirectedPaths {
+
+    private boolean[] marked;
+    private int[] edgeTo;
     private final int s;
 
-    public DepthFirstPaths(Graph G, int s) {
-        this.s = s;
-        edgeTo = new int[G.V()];
+    public DepthFirstDirectedPaths(Digraph G, int s) {
         marked = new boolean[G.V()];
+        edgeTo = new int[G.V()];
+        this.s = s;
         validateVertex(s);
         dfs(G, s);
     }
 
-    private void dfs(Graph G, int v) {
+    private void dfs(Digraph G, int v) {
         marked[v] = true;
         for (int w : G.adj(v)) {
             if (!marked[w]) {
@@ -61,15 +62,7 @@ public class DepthFirstPaths {
     }
 
     public static void main(String[] args) {
-        Graph G = new Graph(7);
-        G.addEdge(1, 0);
-        G.addEdge(2, 1);
-        G.addEdge(4, 0);
-        G.addEdge(5, 0);
-        G.addEdge(6, 3);
-        System.out.println(G);
-        DepthFirstPaths dfs = new DepthFirstPaths(G, 2);
-        System.out.println(dfs.pathTo(6));
+
     }
 
 }

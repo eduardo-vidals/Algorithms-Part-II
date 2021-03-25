@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package computerscience.algorithms.week6.WordNet;
+package computerscience.algorithms.week6.wordnet;
 
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 
 /**
  *
@@ -13,36 +16,128 @@ import edu.princeton.cs.algs4.Digraph;
  */
 public class SAP {
 
-    private Digraph graph;
+    private Digraph digraph;
 
     // constructor takes a digraph (not necessarily a DAG)
     public SAP(Digraph G) {
-        graph = new Digraph(G);
+        if (G == null) {
+            throw new IllegalArgumentException();
+        }
+        digraph = new Digraph(G);
     }
 
     // length of shortest ancestral path between v and w; -1 if no such path
     public int length(int v, int w) {
-        return 0;
+        return sap(v, w)[0];
     }
 
     // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
     public int ancestor(int v, int w) {
-        return 0;
+        return sap(v, w)[1];
     }
 
     // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path
     public int length(Iterable<Integer> v, Iterable<Integer> w) {
-        return 0;
+        return sap(v, w)[0];
     }
 
     // a common ancestor that participates in shortest ancestral path; -1 if no such path
     public int ancestor(Iterable<Integer> v, Iterable<Integer> w) {
-        return 0;
+        return sap(v, w)[1];
+    }
+
+    private int[] sap(int v, int w) {
+        validateVertex(v);
+        validateVertex(w);
+        System.out.println("test");
+        BreadthFirstDirectedPaths bfsV = new BreadthFirstDirectedPaths(digraph, v);
+        BreadthFirstDirectedPaths bfsW = new BreadthFirstDirectedPaths(digraph, w);
+
+        int distance = Integer.MAX_VALUE;
+        int ancestor = -2;
+        for (int vertex = 0; vertex < digraph.V(); vertex++) {
+            System.out.println("test");
+            if (bfsV.hasPathTo(vertex) && bfsW.hasPathTo(vertex) && bfsV.distTo(vertex) < distance && bfsW.distTo(vertex) < distance) {
+                int sum = bfsV.distTo(vertex) + bfsW.distTo(vertex);
+                if (distance > sum) {
+                    distance = sum;
+                    ancestor = vertex;
+                }
+            }
+        }
+
+        if (distance == Integer.MAX_VALUE) {
+            return new int[]{-1, -1};
+        } else {
+            return new int[]{distance, ancestor};
+        }
+    }
+
+    private int[] sap(Iterable<Integer> v, Iterable<Integer> w) {
+        validateVertices(v);
+        validateVertices(w);
+
+        BreadthFirstDirectedPaths bfsV = new BreadthFirstDirectedPaths(digraph, v);
+        BreadthFirstDirectedPaths bfsW = new BreadthFirstDirectedPaths(digraph, w);
+
+        int distance = Integer.MAX_VALUE;
+        int ancestor = -2;
+
+        for (int vertex = 0; vertex < digraph.V(); vertex++) {
+            if (bfsV.hasPathTo(vertex) && bfsW.hasPathTo(vertex) && bfsV.distTo(vertex) < distance && bfsW.distTo(vertex) < distance) {
+                int sum = bfsV.distTo(vertex) + bfsW.distTo(vertex);
+                if (distance > sum) {
+                    distance = sum;
+                    ancestor = vertex;
+                }
+            }
+        }
+
+        if (distance == Integer.MAX_VALUE) {
+            return new int[]{-1, -1};
+        } else {
+            return new int[]{distance, ancestor};
+        }
+    }
+
+    private void validateVertex(int v) {
+        int V = digraph.V();
+        if (v < 0 || v >= V) {
+            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V - 1));
+        }
+    }
+
+    private void validateVertices(Iterable<Integer> vertices) {
+        if (vertices == null) {
+            throw new IllegalArgumentException("argument is null");
+        }
+        int count = 0;
+        for (Integer v : vertices) {
+            count++;
+            if (v == null) {
+                throw new IllegalArgumentException("vertex is null");
+            }
+            validateVertex(v);
+        }
+        if (count == 0) {
+            throw new IllegalArgumentException("zero vertices");
+        }
     }
 
     // do unit testing of this class
     public static void main(String[] args) {
-
+        In in = new In("digraph1.txt");
+        Digraph G = new Digraph(in);
+        SAP sap = new SAP(G);
+        System.out.println("test");
+        while (!StdIn.isEmpty()) {
+            System.out.println("test");
+            int v = StdIn.readInt();
+            int w = StdIn.readInt();
+            int length = sap.length(v, w);
+            int ancestor = sap.ancestor(v, w);
+            StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
+        }
     }
-    
+
 }

@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package computerscience.algorithms.week6.WordNet;
+package computerscience.algorithms.week6.wordnet;
 
 import edu.princeton.cs.algs4.Digraph;
-import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class WordNet {
 
     private final Map<Integer, String> idToSynsets;
     private final Map<String, Set<Integer>> nounsToIds;
+    private SAP sap;
 
     // constructor takes the name of the two input files
     public WordNet(String synsets, String hypernyms) {
@@ -28,8 +30,7 @@ public class WordNet {
         nounsToIds = new HashMap<>();
         synsetNouns(synsets);
         Digraph digraph = hypernyms(hypernyms);
-        
-        DirectedCycle cycle = new DirectedCycle(digraph);
+        sap = new SAP(digraph);
     }
 
     private void synsetNouns(String synsets) {
@@ -47,7 +48,7 @@ public class WordNet {
                 }
                 nounIds.add(synsetID);
                 nounsToIds.put(noun, nounIds);
-            } 
+            }
         }
     }
 
@@ -77,18 +78,28 @@ public class WordNet {
 
     // distance between nounA and nounB (defined below)
     public int distance(String nounA, String nounB) {
-        return 0;
+        return sap.length(nounsToIds.get(nounA), nounsToIds.get(nounB));
     }
 
     // a synset (second field of synsets.txt) that is the common ancestor of nounA and nounB
     // in a shortest ancestral path (defined below)
     public String sap(String nounA, String nounB) {
-        return null;
+        int ancestor = sap.ancestor(nounsToIds.get(nounA), nounsToIds.get(nounB));
+        String noun = idToSynsets.get(ancestor);
+        return noun;
     }
 
     // do unit testing of this class
     public static void main(String[] args) {
-        WordNet words = new WordNet("synsets.txt", "hypernyms.txt");
-        System.out.println(words.nouns());
+        In in = new In("digraph1.txt");
+        Digraph G = new Digraph(in);
+        SAP sap = new SAP(G);
+        while (!StdIn.isEmpty()) {
+            int v = StdIn.readInt();
+            int w = StdIn.readInt();
+            int length = sap.length(v, w);
+            int ancestor = sap.ancestor(v, w);
+            StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
+        }
     }
 }
