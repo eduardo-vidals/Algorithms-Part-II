@@ -6,9 +6,8 @@
 package computerscience.algorithms.week6.wordnet;
 
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -30,10 +29,64 @@ public class WordNet {
         nounsToIds = new HashMap<>();
         synsetNouns(synsets);
         Digraph digraph = hypernyms(hypernyms);
+        DirectedCycle dc = new DirectedCycle(digraph);
+        if (dc.hasCycle()) {
+            throw new IllegalArgumentException();
+        }
         sap = new SAP(digraph);
+
+        int root = 0;
+        int count = idToSynsets.size();
+        for (int v = 0; v < count; v++) {
+            if (digraph.outdegree(v) == 0) {
+                root++;
+            }
+        }
+        if (root != 1) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    // returns all WordNet nouns
+    public Iterable<String> nouns() {
+        return nounsToIds.keySet();
+    }
+
+    // is the word a WordNet noun?
+    public boolean isNoun(String word) {
+        if (word == null) {
+            throw new IllegalArgumentException("Input is null.");
+        }
+
+        return nounsToIds.containsKey(word);
+    }
+
+    // distance between nounA and nounB (defined below)
+    public int distance(String nounA, String nounB) {
+        if (!nounsToIds.containsKey(nounA) || !nounsToIds.containsKey(nounB)) {
+            throw new IllegalArgumentException();
+        }
+        
+        return sap.length(nounsToIds.get(nounA), nounsToIds.get(nounB));
+    }
+
+    // a synset (second field of synsets.txt) that is the common ancestor of nounA and nounB
+    // in a shortest ancestral path (defined below)
+    public String sap(String nounA, String nounB) {
+        if (!nounsToIds.containsKey(nounA) || !nounsToIds.containsKey(nounB)) {
+            throw new IllegalArgumentException();
+        }
+
+        int ancestor = sap.ancestor(nounsToIds.get(nounA), nounsToIds.get(nounB));
+        String noun = idToSynsets.get(ancestor);
+        return noun;
     }
 
     private void synsetNouns(String synsets) {
+        if (synsets == null) {
+            throw new IllegalArgumentException();
+        }
+
         In in = new In(synsets);
 
         while (in.hasNextLine()) {
@@ -53,6 +106,10 @@ public class WordNet {
     }
 
     private Digraph hypernyms(String hypernyms) {
+        if (hypernyms == null) {
+            throw new IllegalArgumentException();
+        }
+
         Digraph graph = new Digraph(idToSynsets.size());
         In in = new In(hypernyms);
         while (in.hasNextLine()) {
@@ -66,40 +123,8 @@ public class WordNet {
         return graph;
     }
 
-    // returns all WordNet nouns
-    public Iterable<String> nouns() {
-        return nounsToIds.keySet();
-    }
-
-    // is the word a WordNet noun?
-    public boolean isNoun(String word) {
-        return nounsToIds.get(word) != null;
-    }
-
-    // distance between nounA and nounB (defined below)
-    public int distance(String nounA, String nounB) {
-        return sap.length(nounsToIds.get(nounA), nounsToIds.get(nounB));
-    }
-
-    // a synset (second field of synsets.txt) that is the common ancestor of nounA and nounB
-    // in a shortest ancestral path (defined below)
-    public String sap(String nounA, String nounB) {
-        int ancestor = sap.ancestor(nounsToIds.get(nounA), nounsToIds.get(nounB));
-        String noun = idToSynsets.get(ancestor);
-        return noun;
-    }
-
     // do unit testing of this class
     public static void main(String[] args) {
-        In in = new In("digraph1.txt");
-        Digraph G = new Digraph(in);
-        SAP sap = new SAP(G);
-        while (!StdIn.isEmpty()) {
-            int v = StdIn.readInt();
-            int w = StdIn.readInt();
-            int length = sap.length(v, w);
-            int ancestor = sap.ancestor(v, w);
-            StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
-        }
+
     }
 }

@@ -5,9 +5,8 @@
  */
 package computerscience.algorithms.week6.wordnet;
 
-import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.StdOut;
 
 /**
@@ -49,14 +48,12 @@ public class SAP {
     private int[] sap(int v, int w) {
         validateVertex(v);
         validateVertex(w);
-        System.out.println("test");
         BreadthFirstDirectedPaths bfsV = new BreadthFirstDirectedPaths(digraph, v);
         BreadthFirstDirectedPaths bfsW = new BreadthFirstDirectedPaths(digraph, w);
 
         int distance = Integer.MAX_VALUE;
-        int ancestor = -2;
+        int ancestor = Integer.MIN_VALUE;
         for (int vertex = 0; vertex < digraph.V(); vertex++) {
-            System.out.println("test");
             if (bfsV.hasPathTo(vertex) && bfsW.hasPathTo(vertex) && bfsV.distTo(vertex) < distance && bfsW.distTo(vertex) < distance) {
                 int sum = bfsV.distTo(vertex) + bfsW.distTo(vertex);
                 if (distance > sum) {
@@ -81,7 +78,7 @@ public class SAP {
         BreadthFirstDirectedPaths bfsW = new BreadthFirstDirectedPaths(digraph, w);
 
         int distance = Integer.MAX_VALUE;
-        int ancestor = -2;
+        int ancestor = Integer.MIN_VALUE;
 
         for (int vertex = 0; vertex < digraph.V(); vertex++) {
             if (bfsV.hasPathTo(vertex) && bfsW.hasPathTo(vertex) && bfsV.distTo(vertex) < distance && bfsW.distTo(vertex) < distance) {
@@ -111,16 +108,16 @@ public class SAP {
         if (vertices == null) {
             throw new IllegalArgumentException("argument is null");
         }
-        int count = 0;
+        int V = digraph.V();
+
         for (Integer v : vertices) {
-            count++;
             if (v == null) {
-                throw new IllegalArgumentException("vertex is null");
+                throw new IllegalArgumentException();
             }
-            validateVertex(v);
-        }
-        if (count == 0) {
-            throw new IllegalArgumentException("zero vertices");
+
+            if (v < 0 || v >= V) {
+                throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V - 1));
+            }
         }
     }
 
@@ -129,15 +126,13 @@ public class SAP {
         In in = new In("digraph1.txt");
         Digraph G = new Digraph(in);
         SAP sap = new SAP(G);
-        System.out.println("test");
-        while (!StdIn.isEmpty()) {
-            System.out.println("test");
-            int v = StdIn.readInt();
-            int w = StdIn.readInt();
-            int length = sap.length(v, w);
-            int ancestor = sap.ancestor(v, w);
-            StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
-        }
+
+        int v = 9;
+        int w = 12;
+        int length = sap.length(v, w);
+        int ancestor = sap.ancestor(v, w);
+        StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
+
     }
 
 }
