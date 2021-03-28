@@ -7,6 +7,7 @@ https://www.coursera.org/learn/algorithms-part2
 ⠀Week⠀                | Content |
 | --- | --- |
 | Week 1 | Graphs, Depth-First Search, Breadth-First Search, Connected Components, Digraphs, Topological Sort, Strong Components |
+| Week 2 | Minimum Spanning Trees, Edge-Weighted Graphs, Kruskal's Algorithm, Prim's Algorithm, Shortest Paths, Dijkstra's Algorithm, Acyclic Shortest Paths | 
 
 # Assignments
 
