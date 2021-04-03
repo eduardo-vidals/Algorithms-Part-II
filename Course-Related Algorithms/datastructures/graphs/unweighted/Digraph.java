@@ -33,7 +33,7 @@ public class Digraph {
         indegree = new int[V];
         adj = (Bag<Integer>[]) new Bag[V];
         for (int v = 0; v < V; v++) {
-            adj[v] = new Bag<Integer>();
+            adj[v] = new Bag<>();
         }
     }
 

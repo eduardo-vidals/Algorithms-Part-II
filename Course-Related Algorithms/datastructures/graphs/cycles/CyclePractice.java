@@ -7,26 +7,13 @@ import edu.princeton.cs.algs4.StdOut;
 /**
  * @author Eduardo
  */
-public class Cycle {
+
+public class CyclePractice {
     private boolean[] marked;
     private int[] edgeTo;
     private Stack<Integer> cycle;
 
-    /**
-     * Determines whether the undirected graph {@code G} has a cycle and,
-     * if so, finds such a cycle.
-     *
-     * @param G the undirected graph
-     */
-    public Cycle(Graph G) {
-        // need special case to identify parallel edge as a cycle
-        if (hasParallelEdges(G)) {
-            return;
-        }
-
-        // don't need special case to identify self-loop as a cycle
-        // if (hasSelfLoop(G)) return;
-
+    public CyclePractice(Graph G) {
         marked = new boolean[G.V()];
         edgeTo = new int[G.V()];
         for (int v = 0; v < G.V(); v++) {
@@ -35,17 +22,21 @@ public class Cycle {
             }
         }
     }
+    public boolean hasCycle(){
+        return cycle != null;
+    }
 
+    public Iterable<Integer> cycle(){
+        return cycle;
+    }
 
-    // does this graph have a self loop?
-    // side effect: initialize cycle to be self loop
-    private boolean hasSelfLoop(Graph G) {
-        for (int v = 0; v < G.V(); v++) {
-            for (int w : G.adj(v)) {
-                if (v == w) {
-                    cycle = new Stack<Integer>();
+    private boolean hasSelfLoop(Graph G){
+        for (int v = 0; v < G.V(); v++){
+            for (int w : G.adj(v)){
+                if (v == w){
+                    cycle = new Stack<>();
                     cycle.push(v);
-                    cycle.push(v);
+                    cycle.push(w);
                     return true;
                 }
             }
@@ -53,17 +44,12 @@ public class Cycle {
         return false;
     }
 
-    // does this graph have two parallel edges?
-    // side effect: initialize cycle to be two parallel edges
-    private boolean hasParallelEdges(Graph G) {
+    public boolean hasParallelEdges(Graph G) {
         marked = new boolean[G.V()];
-
         for (int v = 0; v < G.V(); v++) {
-
-            // check for parallel edges incident to v
             for (int w : G.adj(v)) {
                 if (marked[w]) {
-                    cycle = new Stack<Integer>();
+                    cycle = new Stack<>();
                     cycle.push(v);
                     cycle.push(w);
                     cycle.push(v);
@@ -72,38 +58,17 @@ public class Cycle {
                 marked[w] = true;
             }
 
-            // reset so marked[v] = false for all v
             for (int w : G.adj(v)) {
                 marked[w] = false;
             }
+
         }
         return false;
-    }
-
-    /**
-     * Returns true if the graph {@code G} has a cycle.
-     *
-     * @return {@code true} if the graph has a cycle; {@code false} otherwise
-     */
-    public boolean hasCycle() {
-        return cycle != null;
-    }
-
-    /**
-     * Returns a cycle in the graph {@code G}.
-     *
-     * @return a cycle if the graph {@code G} has a cycle,
-     * and {@code null} otherwise
-     */
-    public Iterable<Integer> cycle() {
-        return cycle;
     }
 
     private void dfs(Graph G, int u, int v) {
         marked[v] = true;
         for (int w : G.adj(v)) {
-
-            // short circuit if cycle already found
             if (cycle != null) {
                 return;
             }
@@ -111,11 +76,8 @@ public class Cycle {
             if (!marked[w]) {
                 edgeTo[w] = v;
                 dfs(G, v, w);
-            }
-
-            // check for cycle (but disregard reverse of edge leading to v)
-            else if (w != u) {
-                cycle = new Stack<Integer>();
+            } else if (w != u) {
+                cycle = new Stack<>();
                 for (int x = v; x != w; x = edgeTo[x]) {
                     cycle.push(x);
                 }
@@ -125,20 +87,17 @@ public class Cycle {
         }
     }
 
-    /**
-     * Unit tests the {@code Cycle} data type.
-     *
-     * @param args the command-line arguments
-     */
     public static void main(String[] args) {
         Graph G = new Graph(3);
         G.addEdge(0, 1);
-        G.addEdge(1, 2);
-        G.addEdge(2, 0);
+        G.addEdge(1,2);
+        G.addEdge(2, 3);
+        G.addEdge(3, 4);
+        G.addEdge(4, 5);
+        G.addEdge(5, 0);
 
 
-        Cycle finder = new Cycle(G);
-        System.out.println("self loop?: " + finder.hasSelfLoop(G));
+        CyclePractice finder = new CyclePractice(G);
         System.out.println("parallel edges?: " + finder.hasParallelEdges(G));
         System.out.println("cycle?: " + finder.hasCycle());
         if (finder.hasCycle()) {
