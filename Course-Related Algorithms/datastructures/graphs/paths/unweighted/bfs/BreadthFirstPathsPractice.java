@@ -66,12 +66,12 @@ public class BreadthFirstPathsPractice {
             q.enqueue(s);
         }
 
-        while (!q.isEmpty()){
+        while (!q.isEmpty()) {
             int v = q.dequeue();
-            for (int w : G.adj(v)){
-                if (!marked[w]){
+            for (int w : G.adj(v)) {
+                if (!marked[w]) {
                     edgeTo[w] = v;
-                    distTo[w]++;
+                    distTo[w] = distTo[v] + 1;
                     marked[w] = true;
                     q.enqueue(w);
                 }
@@ -79,25 +79,25 @@ public class BreadthFirstPathsPractice {
         }
     }
 
-    public boolean hasPathTo(int v){
+    public boolean hasPathTo(int v) {
         validateVertex(v);
         return marked[v];
     }
 
-    public int distTo(int v){
+    public int distTo(int v) {
         validateVertex(v);
         return distTo[v];
     }
 
-    public Iterable<Integer> pathTo(int v){
+    public Iterable<Integer> pathTo(int v) {
         validateVertex(v);
-        if (!hasPathTo(v)){
+        if (!hasPathTo(v)) {
             return null;
         }
         Stack<Integer> path = new Stack<>();
         int x;
         // distance will be 0 once we reach our vertex
-        for (x = v; distTo[x] != 0; x = edgeTo[x]){
+        for (x = v; distTo[x] != 0; x = edgeTo[x]) {
             path.push(x);
         }
         // x will be equal to our vertex, so that is why we intialize it outside

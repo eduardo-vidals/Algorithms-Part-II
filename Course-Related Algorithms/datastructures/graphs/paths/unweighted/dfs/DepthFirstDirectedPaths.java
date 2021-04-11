@@ -13,11 +13,17 @@ import edu.princeton.cs.algs4.Stack;
  */
 
 public class DepthFirstDirectedPaths {
+    private boolean[] marked;  // marked[v] = true iff v is reachable from s
+    private int[] edgeTo;      // edgeTo[v] = last edge on path from s to v
+    private final int s;       // source vertex
 
-    private boolean[] marked;
-    private int[] edgeTo;
-    private final int s;
-
+    /**
+     * Computes a directed path from {@code s} to every other vertex in digraph {@code G}.
+     *
+     * @param G the digraph
+     * @param s the source vertex
+     * @throws IllegalArgumentException unless {@code 0 <= s < V}
+     */
     public DepthFirstDirectedPaths(Digraph G, int s) {
         marked = new boolean[G.V()];
         edgeTo = new int[G.V()];
@@ -36,17 +42,35 @@ public class DepthFirstDirectedPaths {
         }
     }
 
+    /**
+     * Is there a directed path from the source vertex {@code s} to vertex {@code v}?
+     *
+     * @param v the vertex
+     * @return {@code true} if there is a directed path from the source
+     * vertex {@code s} to vertex {@code v}, {@code false} otherwise
+     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     */
     public boolean hasPathTo(int v) {
         validateVertex(v);
         return marked[v];
     }
 
+
+    /**
+     * Returns a directed path from the source vertex {@code s} to vertex {@code v}, or
+     * {@code null} if no such path.
+     *
+     * @param v the vertex
+     * @return the sequence of vertices on a directed path from the source vertex
+     * {@code s} to vertex {@code v}, as an Iterable
+     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     */
     public Iterable<Integer> pathTo(int v) {
         validateVertex(v);
         if (!hasPathTo(v)) {
             return null;
         }
-        Stack<Integer> path = new Stack<>();
+        Stack<Integer> path = new Stack<Integer>();
         for (int x = v; x != s; x = edgeTo[x]) {
             path.push(x);
         }
@@ -54,6 +78,7 @@ public class DepthFirstDirectedPaths {
         return path;
     }
 
+    // throw an IllegalArgumentException unless {@code 0 <= v < V}
     private void validateVertex(int v) {
         int V = marked.length;
         if (v < 0 || v >= V) {
@@ -61,6 +86,11 @@ public class DepthFirstDirectedPaths {
         }
     }
 
+    /**
+     * Unit tests the {@code DepthFirstDirectedPaths} data type.
+     *
+     * @param args the command-line arguments
+     */
     public static void main(String[] args) {
 
     }

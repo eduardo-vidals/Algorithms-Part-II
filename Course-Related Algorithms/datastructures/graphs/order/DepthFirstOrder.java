@@ -21,6 +21,11 @@ public class DepthFirstOrder {
     private int preCounter;            // counter or preorder numbering
     private int postCounter;           // counter for postorder numbering
 
+    /**
+     * Determines a depth-first order for the digraph {@code G}.
+     *
+     * @param G the digraph
+     */
     public DepthFirstOrder(Digraph G) {
         pre = new int[G.V()];
         post = new int[G.V()];
@@ -36,6 +41,11 @@ public class DepthFirstOrder {
         assert check();
     }
 
+    /**
+     * Determines a depth-first order for the edge-weighted digraph {@code G}.
+     *
+     * @param G the edge-weighted digraph
+     */
     public DepthFirstOrder(EdgeWeightedDigraph G) {
         pre = new int[G.V()];
         post = new int[G.V()];
@@ -78,24 +88,53 @@ public class DepthFirstOrder {
         post[v] = postCounter++;
     }
 
+    /**
+     * Returns the preorder number of vertex {@code v}.
+     *
+     * @param v the vertex
+     * @return the preorder number of vertex {@code v}
+     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     */
     public int pre(int v) {
         validateVertex(v);
         return pre[v];
     }
 
+    /**
+     * Returns the postorder number of vertex {@code v}.
+     *
+     * @param v the vertex
+     * @return the postorder number of vertex {@code v}
+     * @throws IllegalArgumentException unless {@code 0 <= v < V}
+     */
     public int post(int v) {
         validateVertex(v);
         return post[v];
     }
 
+    /**
+     * Returns the vertices in postorder.
+     *
+     * @return the vertices in postorder, as an iterable of vertices
+     */
     public Iterable<Integer> post() {
         return postorder;
     }
 
+    /**
+     * Returns the vertices in preorder.
+     *
+     * @return the vertices in preorder, as an iterable of vertices
+     */
     public Iterable<Integer> pre() {
         return preorder;
     }
 
+    /**
+     * Returns the vertices in reverse postorder.
+     *
+     * @return the vertices in reverse postorder, as an iterable of vertices
+     */
     public Iterable<Integer> reversePost() {
         Stack<Integer> reverse = new Stack<Integer>();
         for (int v : postorder) {
@@ -139,6 +178,11 @@ public class DepthFirstOrder {
         }
     }
 
+    /**
+     * Unit tests the {@code DepthFirstOrder} data type.
+     *
+     * @param args the command-line arguments
+     */
     public static void main(String[] args) {
         In in = new In(args[0]);
         Digraph G = new Digraph(in);

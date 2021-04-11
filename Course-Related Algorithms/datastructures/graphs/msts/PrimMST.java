@@ -20,6 +20,11 @@ public class PrimMST {
     private boolean[] marked;     // marked[v] = true if v on tree, false otherwise
     private IndexMinPQ<Double> pq;
 
+    /**
+     * Compute a minimum spanning tree (or forest) of an edge-weighted graph.
+     *
+     * @param G the edge-weighted graph
+     */
     public PrimMST(EdgeWeightedGraph G) {
         edgeTo = new Edge[G.V()];
         distTo = new double[G.V()];
@@ -70,6 +75,12 @@ public class PrimMST {
         }
     }
 
+    /**
+     * Returns the edges in a minimum spanning tree (or forest).
+     *
+     * @return the edges in a minimum spanning tree (or forest) as
+     * an iterable of edges
+     */
     public Iterable<Edge> edges() {
         Queue<Edge> mst = new Queue<Edge>();
         for (int v = 0; v < edgeTo.length; v++) {
@@ -81,6 +92,11 @@ public class PrimMST {
         return mst;
     }
 
+    /**
+     * Returns the sum of the edge weights in a minimum spanning tree (or forest).
+     *
+     * @return the sum of the edge weights in a minimum spanning tree (or forest)
+     */
     public double weight() {
         double weight = 0.0;
         for (Edge e : edges()) {
@@ -151,6 +167,11 @@ public class PrimMST {
         return true;
     }
 
+    /**
+     * Unit tests the {@code PrimMST} data type.
+     *
+     * @param args the command-line arguments
+     */
     public static void main(String[] args) {
         In in = new In(args[0]);
         EdgeWeightedGraph G = new EdgeWeightedGraph(in);

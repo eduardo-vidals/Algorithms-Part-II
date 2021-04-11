@@ -22,18 +22,19 @@ public class CyclePractice {
             }
         }
     }
-    public boolean hasCycle(){
+
+    public boolean hasCycle() {
         return cycle != null;
     }
 
-    public Iterable<Integer> cycle(){
+    public Iterable<Integer> cycle() {
         return cycle;
     }
 
-    private boolean hasSelfLoop(Graph G){
-        for (int v = 0; v < G.V(); v++){
-            for (int w : G.adj(v)){
-                if (v == w){
+    private boolean hasSelfLoop(Graph G) {
+        for (int v = 0; v < G.V(); v++) {
+            for (int w : G.adj(v)) {
+                if (v == w) {
                     cycle = new Stack<>();
                     cycle.push(v);
                     cycle.push(w);
@@ -68,7 +69,9 @@ public class CyclePractice {
 
     private void dfs(Graph G, int u, int v) {
         marked[v] = true;
+
         for (int w : G.adj(v)) {
+
             if (cycle != null) {
                 return;
             }
@@ -88,9 +91,9 @@ public class CyclePractice {
     }
 
     public static void main(String[] args) {
-        Graph G = new Graph(3);
+        Graph G = new Graph(6);
         G.addEdge(0, 1);
-        G.addEdge(1,2);
+        G.addEdge(1, 2);
         G.addEdge(2, 3);
         G.addEdge(3, 4);
         G.addEdge(4, 5);

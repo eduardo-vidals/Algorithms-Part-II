@@ -14,6 +14,12 @@ public class DirectedCycle {
     private boolean[] onStack;       // onStack[v] = is vertex on the stack?
     private Stack<Integer> cycle;    // directed cycle (or null if no such cycle)
 
+    /**
+     * Determines whether the digraph {@code G} has a directed cycle and, if so,
+     * finds such a cycle.
+     *
+     * @param G the digraph
+     */
     public DirectedCycle(Digraph G) {
         marked = new boolean[G.V()];
         onStack = new boolean[G.V()];
@@ -56,13 +62,25 @@ public class DirectedCycle {
         onStack[v] = false;
     }
 
+    /**
+     * Does the digraph have a directed cycle?
+     *
+     * @return {@code true} if the digraph has a directed cycle, {@code false} otherwise
+     */
     public boolean hasCycle() {
         return cycle != null;
     }
 
+    /**
+     * Returns a directed cycle if the digraph has a directed cycle, and {@code null} otherwise.
+     *
+     * @return a directed cycle (as an iterable) if the digraph has a directed cycle,
+     * and {@code null} otherwise
+     */
     public Iterable<Integer> cycle() {
         return cycle;
     }
+
 
     // certify that digraph has a directed cycle if it reports one
     private boolean check() {
@@ -86,6 +104,11 @@ public class DirectedCycle {
         return true;
     }
 
+    /**
+     * Unit tests the {@code DirectedCycle} data type.
+     *
+     * @param args the command-line arguments
+     */
     public static void main(String[] args) {
         In in = new In(args[0]);
         Digraph G = new Digraph(in);
