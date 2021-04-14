@@ -7,6 +7,7 @@ import java.awt.Color;
 /**
  * @author Eduardo
  */
+
 public class SeamCarver {
 
     private Picture picture;
@@ -19,7 +20,6 @@ public class SeamCarver {
         }
 
         this.picture = new Picture(picture);
-        updateEnergy();
     }
 
     // current picture
@@ -65,18 +65,44 @@ public class SeamCarver {
     private int gradientX(int x, int y) {
         Color left = picture.get(x - 1, y);
         Color right = picture.get(x + 1, y);
-        int rx = right.getRed() - left.getRed();
-        int gx = right.getGreen() - left.getGreen();
-        int bx = right.getBlue() - left.getBlue();
+
+        int leftRGB = left.getRGB();
+        int rightRGB = right.getRGB();
+
+        int rright = (leftRGB >> 16) & 0xFF;
+        int gright = (leftRGB >>  8) & 0xFF;
+        int bright = (leftRGB) & 0xFF;
+
+        int rleft = (rightRGB >> 16) & 0xFF;
+        int gleft = (rightRGB >>  8) & 0xFF;
+        int bleft = (rightRGB) & 0xFF;
+
+        int rx = rright - rleft;
+        int gx = gright - gleft;
+        int bx = bright - bleft;
+
         return (rx * rx) + (gx * gx) + (bx * bx);
     }
 
     private int gradientY(int x, int y) {
         Color top = picture.get(x, y - 1);
         Color bottom = picture.get(x, y + 1);
-        int ry = top.getRed() - bottom.getRed();
-        int gy = top.getGreen() - bottom.getGreen();
-        int by = top.getBlue() - bottom.getBlue();
+
+        int topRGB = top.getRGB();
+        int bottomRGB = bottom.getRGB();
+
+        int rtop = (topRGB >> 16) & 0xFF;
+        int gtop = (topRGB >>  8) & 0xFF;
+        int btop = (topRGB) & 0xFF;
+
+        int rbottom = (bottomRGB >> 16) & 0xFF;
+        int gbottom = (bottomRGB >>  8) & 0xFF;
+        int bbottom = (bottomRGB) & 0xFF;
+
+        int ry = rtop - rbottom;
+        int gy = gtop - gbottom;
+        int by = btop - bbottom;
+
         return (ry * ry) + (gy * gy) + (by * by);
     }
 
