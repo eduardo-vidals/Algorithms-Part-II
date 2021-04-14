@@ -14,7 +14,7 @@ https://www.coursera.org/learn/algorithms-part2
 | Assignment | Name | Score |
 | --- | --- | --- |
 | Week 1 | WordNet | 100/100 |
-| Week 2 | Seam Carving | 98/100 |
+| Week 2 | Seam Carving | 100/100 |
 | Week 3 | Baseball Elimination | ??? |
 | Week 4 | Boggle | ??? |
 | Week 5 | Burrows-Wheeler | ??? | 
