@@ -1,5 +1,5 @@
 # WordNet
-This is my solution to the WordNet assignment.
+Solution to the WordNet assignment.
 
 ## Summary
 WordNet is a semantic lexicon for the English language that computational linguists and cognitive scientists use extensively. WordNet groups words into sets of synonyms called synsets. WordNet also describes semantic relationships between synsets. One such relationship is the is-a relationship, which connects a hyponym (more specific synset) to a hypernym (more general synset).
