@@ -16,4 +16,4 @@ If the maximum number of games team x can win is less than the number of wins of
 Otherwise, we create a flow network and solve a maxflow problem in it. In the network, feasible integral flows correspond to outcomes of the remaining schedule. There are vertices corresponding to teams (other than team x) and to remaining divisional games (not involving team x). Intuitively, each unit of flow in the network corresponds to a remaining game. As it flows through the network from s to t, it passes from a game vertex, say between teams i and j, then through one of the team vertices i or j, classifying this game as being won by that team.
 
 ## Specification.
-Programming assignment specification can be found [here.](https://coursera.cs.princeton.edu/algs4/assignments/seam/specification.php)
+Programming assignment specification can be found [here.](https://coursera.cs.princeton.edu/algs4/assignments/baseball/specification.php)
