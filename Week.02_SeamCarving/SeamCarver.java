@@ -15,7 +15,7 @@ public class SeamCarver {
 
     // create a seam carver object based on the given picture
     public SeamCarver(Picture picture) {
-        if (picture == null){
+        if (picture == null) {
             throw new IllegalArgumentException();
         }
 
@@ -51,7 +51,7 @@ public class SeamCarver {
 
     // energy of pixel at column x and row y
     public double energy(int x, int y) {
-        if (x < 0 || x >= width() || y < 0 || y >= height()){
+        if (x < 0 || x >= width() || y < 0 || y >= height()) {
             throw new IllegalArgumentException();
         }
 
@@ -60,60 +60,6 @@ public class SeamCarver {
         }
         double gradientXY = gradientX(x, y) + gradientY(x, y);
         return Math.sqrt(gradientXY);
-    }
-
-    private int gradientX(int x, int y) {
-        Color left = picture.get(x - 1, y);
-        Color right = picture.get(x + 1, y);
-
-        int leftRGB = left.getRGB();
-        int rightRGB = right.getRGB();
-
-        int rright = (leftRGB >> 16) & 0xFF;
-        int gright = (leftRGB >>  8) & 0xFF;
-        int bright = (leftRGB) & 0xFF;
-
-        int rleft = (rightRGB >> 16) & 0xFF;
-        int gleft = (rightRGB >>  8) & 0xFF;
-        int bleft = (rightRGB) & 0xFF;
-
-        int rx = rright - rleft;
-        int gx = gright - gleft;
-        int bx = bright - bleft;
-
-        return (rx * rx) + (gx * gx) + (bx * bx);
-    }
-
-    private int gradientY(int x, int y) {
-        Color top = picture.get(x, y - 1);
-        Color bottom = picture.get(x, y + 1);
-
-        int topRGB = top.getRGB();
-        int bottomRGB = bottom.getRGB();
-
-        int rtop = (topRGB >> 16) & 0xFF;
-        int gtop = (topRGB >>  8) & 0xFF;
-        int btop = (topRGB) & 0xFF;
-
-        int rbottom = (bottomRGB >> 16) & 0xFF;
-        int gbottom = (bottomRGB >>  8) & 0xFF;
-        int bbottom = (bottomRGB) & 0xFF;
-
-        int ry = rtop - rbottom;
-        int gy = gtop - gbottom;
-        int by = btop - bbottom;
-
-        return (ry * ry) + (gy * gy) + (by * by);
-    }
-
-    private void transpose() {
-        Picture temp = new Picture(picture.height(), picture.width());
-        for (int i = 0; i < picture.height(); i++) {
-            for (int j = 0; j < picture.width(); j++) {
-                temp.set(i, j, picture.get(j, i));
-            }
-        }
-        picture = temp;
     }
 
     // sequence of indices for horizontal seam
@@ -140,7 +86,7 @@ public class SeamCarver {
             }
         }
 
-        // top row has our initial energy of 1000
+        // top row of disTo has our initial energy of 1000 from the energy array
         for (int x = 0; x < picture.width(); x++) {
             distTo[x][0] = this.energy[x][0];
         }
@@ -242,9 +188,9 @@ public class SeamCarver {
             }
         }
 
-        // height of the picture will be reduced by 1
-        // after removal of horizontal seam, pixels in the seam
-        // are not copied over into the new picture
+        // width of the picture will be reduced by 1
+        // after removal of vertical seam, pixels in the seam are not copied over into the new picture
+        // current will always be 1 pixel behind since it does not increment when the pixel is part of the seam
         Picture temp = new Picture(width() - 1, height());
         int current = 0;
         for (int y = 0; y < height(); y++) {
@@ -287,8 +233,8 @@ public class SeamCarver {
         }
 
         // height of the picture will be reduced by 1
-        // after removal of horizontal seam, pixels in the seam
-        // are not copied over into the new picture
+        // after removal of horizontal seam, pixels in the seam are not copied over into the new picture
+        // current will always be 1 pixel behind since it does not increment when the pixel is part of the seam
         Picture temp = new Picture(width(), height() - 1);
         int current = 0;
         for (int y = 0; y < width(); y++) {
@@ -302,6 +248,63 @@ public class SeamCarver {
             current = 0;
         }
         picture = temp;
+    }
+
+    // transpose method for easier use of finding the horizontal seam
+    private void transpose() {
+        Picture temp = new Picture(picture.height(), picture.width());
+        for (int i = 0; i < picture.height(); i++) {
+            for (int j = 0; j < picture.width(); j++) {
+                temp.set(i, j, picture.get(j, i));
+            }
+        }
+        picture = temp;
+    }
+
+    // gradient x energy difference
+    private int gradientX(int x, int y) {
+        Color left = picture.get(x - 1, y);
+        Color right = picture.get(x + 1, y);
+
+        int leftRGB = left.getRGB();
+        int rightRGB = right.getRGB();
+
+        int rright = (leftRGB >> 16) & 0xFF;
+        int gright = (leftRGB >> 8) & 0xFF;
+        int bright = (leftRGB) & 0xFF;
+
+        int rleft = (rightRGB >> 16) & 0xFF;
+        int gleft = (rightRGB >> 8) & 0xFF;
+        int bleft = (rightRGB) & 0xFF;
+
+        int rx = rright - rleft;
+        int gx = gright - gleft;
+        int bx = bright - bleft;
+
+        return (rx * rx) + (gx * gx) + (bx * bx);
+    }
+
+    // gradient Y energy difference
+    private int gradientY(int x, int y) {
+        Color top = picture.get(x, y - 1);
+        Color bottom = picture.get(x, y + 1);
+
+        int topRGB = top.getRGB();
+        int bottomRGB = bottom.getRGB();
+
+        int rtop = (topRGB >> 16) & 0xFF;
+        int gtop = (topRGB >> 8) & 0xFF;
+        int btop = (topRGB) & 0xFF;
+
+        int rbottom = (bottomRGB >> 16) & 0xFF;
+        int gbottom = (bottomRGB >> 8) & 0xFF;
+        int bbottom = (bottomRGB) & 0xFF;
+
+        int ry = rtop - rbottom;
+        int gy = gtop - gbottom;
+        int by = btop - bbottom;
+
+        return (ry * ry) + (gy * gy) + (by * by);
     }
 
     //  unit testing (optional)
