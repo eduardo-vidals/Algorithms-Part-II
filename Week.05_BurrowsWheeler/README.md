@@ -7,14 +7,14 @@ This revolutionary algorithm outcompresses gzip and PKZIP, is relatively easy to
 ## The Problem
 Implement the Burrows–Wheeler data compression algorithm. The Burrows–Wheeler data compression algorithm consists of three algorithmic components, which are applied in succession:
 
-* Energy Calculation
-  * The first step is to calculate the energy of each pixel, which is a measure of the importance of each pixel—the higher the energy, the less likely that the pixel will be included as part of a seam.
+* Burrows–Wheeler Transform
+  * Given a typical English text file, transform it into a text file in which sequences of the same character occur near each other many times.
 
-* Seam Identification
-  * The next step is to find a vertical seam of minimum total energy. This is similar to the classic shortest path problem in an edge-weighted digraph. 
+* Move-to-Front Encoding
+  * Given a text file in which sequences of the same character occur near each other many times, convert it into a text file in which certain characters appear much more frequently than others.
 
-* Seam Removal
-  * The final step is to remove from the image all of the pixels along the seam.
+* Huffman Compression
+  * Given a text file in which certain characters appear much more frequently than others, compress it by encoding frequently occurring characters with short codewords and infrequently occurring characters with long codewords.
 
 ## Specification.
 Programming assignment specification can be found [here.](https://coursera.cs.princeton.edu/algs4/assignments/burrows/specification.php)
