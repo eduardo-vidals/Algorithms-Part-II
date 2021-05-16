@@ -9,7 +9,7 @@ Boggle is a word game designed by Allan Turoff and distributed by Hasbro. It inv
 * A valid word must be in the dictionary (which typically does not contain proper nouns).
 
 ## The Problem
-Write a program to play the word game Boggle®.
+Write a program to play the word game Boggle.
 
 ## Scoring
 Valid words are scored according to their length, using this table:
