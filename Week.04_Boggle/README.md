@@ -25,4 +25,4 @@ Valid words are scored according to their length, using this table:
 In the English language, the letter Q is almost always followed by the letter U. Consequently, the side of one die is printed with the two-letter sequence Qu instead of Q (and this two-letter sequence must be used together when forming words). When scoring, Qu counts as two letters; for example, the word QuEUE scores as a 5-letter word even though it is formed by following a sequence of only 4 dice.
 
 ## Specification.
-Programming assignment specification can be found [here.](https://coursera.cs.princeton.edu/algs4/assignments/seam/specification.php)
+Programming assignment specification can be found [here.](https://coursera.cs.princeton.edu/algs4/assignments/boggle/specification.php)
