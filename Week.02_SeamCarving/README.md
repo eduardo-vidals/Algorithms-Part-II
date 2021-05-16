@@ -1,4 +1,4 @@
-# WordNet
+# Seam Carving
 Solution to the Seam Carving assignment.
 
 ## Summary
