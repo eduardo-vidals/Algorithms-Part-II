@@ -31,7 +31,7 @@ public class BoggleSolver {
         return words;
     }
 
-    // get wors from the trie
+    // get words from the trie
     private void getWords(BoggleBoard b, Node n, String w, int r, int c, int i, boolean[][] m) {
         // validate to ensure a base case for DFS
         if (validate(b, r, c, m)) {
