@@ -21,4 +21,4 @@ https://www.coursera.org/learn/algorithms-part2
 | Week 2 | Seam Carving | 100/100 |
 | Week 3 | Baseball Elimination | 100/100 |
 | Week 4 | Boggle | 100/100 |
-| Week 5 | Burrows-Wheeler | ??? | 
+| Week 5 | Burrows-Wheeler | 100/100 | 
