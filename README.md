@@ -1,8 +1,6 @@
 # Algorithms Part II by Princeton University
  
-Part II of Algorithms from Princeton University. Course related information can be found here:
-
-https://www.coursera.org/learn/algorithms-part2
+Part II of Algorithms from Princeton University. Course related information can be found [here.](https://www.coursera.org/learn/algorithms-part2)
 
 |⠀Week⠀                | Content |
 | --- | --- |
